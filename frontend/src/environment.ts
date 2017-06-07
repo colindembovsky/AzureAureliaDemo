@@ -1,4 +1,5 @@
 export default {
-  debug: true,
-  testing: true
+  apiBaseUrl: "http://someprodserver/api",
+  debug: false,
+  testing: false,
 };

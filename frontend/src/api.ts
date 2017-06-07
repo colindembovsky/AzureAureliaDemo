@@ -1,7 +1,6 @@
 import { autoinject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-fetch-client';
-
-const baseUrl = "http://localhost:64705/api";
+import environment from './environment';
 
 @autoinject
 export class ApiWrapper {
@@ -11,7 +10,7 @@ export class ApiWrapper {
     constructor(public client: HttpClient) {
         client.configure(config => {
             config
-                .withBaseUrl(baseUrl)
+                .withBaseUrl(environment.apiBaseUrl)
                 .withDefaults({
                     headers: {
                         Accept: 'application/json',
