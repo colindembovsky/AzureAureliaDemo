@@ -1,0 +1,5 @@
+{
+      "api": {
+            "baseUri": "http://localhost:64705/api"
+      }
+}

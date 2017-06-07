@@ -141,9 +141,18 @@
             "path": "../node_modules/aurelia-fetch-client/dist/amd",
             "resources": []
           },
-          "whatwg-fetch"
+          "whatwg-fetch",
+          {
+            "name": "aurelia-configuration",
+            "main": "index",
+            "path": "../node_modules/aurelia-configuration/dist/amd",
+            "resources": []
+          }
         ]
       }
-    ]
+    ],
+    "copyFiles": {
+      "src/config/*.json": "wwwroot/config"
+    }
   }
 }
