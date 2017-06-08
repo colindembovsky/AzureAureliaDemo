@@ -21,24 +21,45 @@ module.exports = function(config) {
     files: files,
     exclude: [],
     preprocessors: {
-      [project.unitTestRunner.source]: [project.transpiler.id]
+      [project.unitTestRunner.source]: [project.transpiler.id],
+      'wwwroot/scripts/app-bundle.js': ['coverage']
     },
     typescriptPreprocessor: {
       typescript: require('typescript'),
       options: tsconfig.compilerOptions
     },
-    reporters: ['progress'],
+    reporters: ['progress', 'tfs', 'coverage', 'karma-remap-istanbul'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
     singleRun: false,
     // client.args must be a array of string.
     // Leave 'aurelia-root', project.paths.root in this order so we can find
     // the root of the aurelia project.
     client: {
       args: ['aurelia-root', project.paths.root]
+    },
+
+    phantomjsLauncher: {
+      // Have phantomjs exit if a ResourceError is encountered (useful if karma exits without killing phantom)
+      exitOnResourceError: true
+    },
+
+    coverageReporter: {
+      dir: 'reports',
+      reporters: [
+        { type: 'json', subdir: 'coverage', file: 'coverage-final.json' },
+      ]
+    },
+
+    remapIstanbulReporter: {
+      src: 'reports/coverage/coverage-final.json',
+      reports: {
+        cobertura: 'reports/coverage/cobertura.xml',
+        html: 'reports/coverage/html'
+      }
     }
   });
 };

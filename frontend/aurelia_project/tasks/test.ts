@@ -4,6 +4,7 @@ import {CLIOptions} from 'aurelia-cli';
 import build from './build';
 import {watch} from './run';
 import * as path from 'path';
+import * as replace from 'gulp-replace';
 
 function log(message) {
   console.log(message); //eslint-disable-line no-console
@@ -20,6 +21,18 @@ let karma = done => {
   }, done).start();
 };
 
+// hack to fix the relative paths in the generated mapped html report
+let fixPaths = done => {
+  let repRoot = path.join(__dirname, '../../reports/');
+  let repPaths = [
+    path.join(repRoot, 'src/**/*.html'),
+    path.join(repRoot, 'src/*.html'),
+  ];
+  return gulp.src(repPaths, { base: repRoot })
+        .pipe(replace(/(..\/..\/..\/)(\w)/gi, '../coverage/html/$2'))
+        .pipe(gulp.dest(path.join(repRoot)));
+};
+
 let unit;
 
 if (CLIOptions.hasFlag('watch')) {
@@ -27,13 +40,15 @@ if (CLIOptions.hasFlag('watch')) {
     build,
     gulp.parallel(
       watch(build, onChange),
-      karma
+      karma,
+      fixPaths
     )
   );
 } else {
   unit = gulp.series(
     build,
-    karma
+    karma,
+    fixPaths
   );
 }
 
