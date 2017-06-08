@@ -1,3 +1,6 @@
 node_modules
 .idea
 .DS_STORE
+wwwroot
+testresults
+reports
