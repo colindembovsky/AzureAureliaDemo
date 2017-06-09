@@ -7,7 +7,7 @@ import * as path from 'path';
 import * as replace from 'gulp-replace';
 
 function log(message) {
-  console.log(message); //eslint-disable-line no-console
+  console.log(message); // eslint-disable-line no-console
 }
 
 function onChange(path) {
@@ -17,20 +17,27 @@ function onChange(path) {
 let karma = done => {
   new Karma({
     configFile: path.join(__dirname, '/../../karma.conf.js'),
-    singleRun: !CLIOptions.hasFlag('watch')
+    singleRun: !CLIOptions.hasFlag('watch'),
   }, done).start();
 };
 
 // hack to fix the relative paths in the generated mapped html report
-let fixPaths = done => {
-  let repRoot = path.join(__dirname, '../../reports/');
-  let repPaths = [
-    path.join(repRoot, 'src/**/*.html'),
-    path.join(repRoot, 'src/*.html'),
+let copySrc = done => {
+  let srcRoot = path.join(__dirname, '../../reports/src/');
+  let srcPaths = [
+    path.join(srcRoot, "*.html"),
+    path.join(srcRoot, "**/*.html"),
   ];
-  return gulp.src(repPaths, { base: repRoot })
-        .pipe(replace(/(..\/..\/..\/)(\w)/gi, '../coverage/html/$2'))
-        .pipe(gulp.dest(path.join(repRoot)));
+  return gulp.src(srcPaths, { base: srcRoot })
+    .pipe(replace('../../.', '.'))
+    .pipe(gulp.dest(path.join(__dirname, '../../reports/coverage/html/src')));
+};
+
+let updateIndex = done => {
+  let idxRoot = path.join(__dirname, '../../reports/coverage/html/');
+  return gulp.src(path.join(idxRoot, 'index.html'), { baseDir: idxRoot })
+        .pipe(replace('../..', '.'))
+        .pipe(gulp.dest(idxRoot));
 };
 
 let unit;
@@ -41,14 +48,16 @@ if (CLIOptions.hasFlag('watch')) {
     gulp.parallel(
       watch(build, onChange),
       karma,
-      fixPaths
+      copySrc,
+      updateIndex
     )
   );
 } else {
   unit = gulp.series(
     build,
     karma,
-    fixPaths
+    copySrc,
+    updateIndex
   );
 }
 
