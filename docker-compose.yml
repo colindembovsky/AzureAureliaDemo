@@ -2,13 +2,13 @@ version: '2'
 
 services:
   api:
-    image: k8sPOC/api
+    image: api
     build:
       context: ./API
       dockerfile: Dockerfile
 
   frontend:
-    image: k8sPOC/frontend
+    image: frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
