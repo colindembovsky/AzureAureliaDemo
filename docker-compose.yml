@@ -12,5 +12,4 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    links:
-      - api
+
