@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-frontend-service
+spec:
+  selector:
+    app: demo
+    tier: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: http
+  type: LoadBalancer
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: demo-frontend-deployment
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: demo
+        tier: frontend
+    spec:
+      containers:
+      - name: frontent
+        image: onvia.azurecr.io/frontend:latest
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+        - name: onviacontainerreg
