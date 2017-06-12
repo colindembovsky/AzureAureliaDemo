@@ -12,7 +12,7 @@ export class App {
 
   private async initValues() {
     try {
-      this.values = await this.api.client.fetch("/values")
+      this.values = <any>await this.api.client.fetch("/values")
         .then((res) => res.json());
     } catch (ex) {
       console.error(ex);

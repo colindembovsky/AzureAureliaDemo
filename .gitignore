@@ -259,3 +259,14 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+
+# generated files
+frontend/src/environment.*
+frontend/src/*.js
+frontend/src/*.js.map
+frontend/src/**/*.js
+frontend/src/**/*.js.map
+frontend/test/*.js
+frontend/test/*.js.map
+frontend/test/**/*.js
+frontend/test/**/*.js.map
