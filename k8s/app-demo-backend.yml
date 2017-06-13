@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: onvia.azurecr.io/api:latest
+        image: onvia.azurecr.io/api
         ports:
         - containerPort: 80
       imagePullSecrets:

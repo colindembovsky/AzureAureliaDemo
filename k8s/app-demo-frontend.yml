@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: onvia.azurecr.io/frontend:latest
+        image: onvia.azurecr.io/frontend
         ports:
         - containerPort: 80
         env:
