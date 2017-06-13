@@ -5,10 +5,10 @@ services:
     image: api
     build:
       args:
-        source: ./publish
+        source: ./publish/API
 
   frontend:
     image: frontend
     build:
       args:
-        source: ./publish
+        source: ./publish/frontend
