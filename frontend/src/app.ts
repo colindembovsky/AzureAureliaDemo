@@ -6,6 +6,7 @@ export class App {
   public message = 'Hello World!';
   public version = 'Unknown';
   public values: string[];
+  public change = 'changeme';
 
   constructor(public api: ApiWrapper) {
     this.initValues().then(() => this.initVersion());
