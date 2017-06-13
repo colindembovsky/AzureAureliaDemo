@@ -36,10 +36,10 @@ spec:
           value: "Production"
         volumeMounts:
           - name: config-volume
-            mountPath: /app/wwwroot/config/
+            mountPath: /app/wwwroot/config
       volumes:
         - name: config-volume
-          configMap:
-            name: demo-app-frontend-config
+          secret:
+            secretName: demo-app-frontend-secret
       imagePullSecrets:
         - name: onviacontainerreg

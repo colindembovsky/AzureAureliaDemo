@@ -4,11 +4,11 @@ metadata:
   name: demo-app-frontend-config
   labels:
     app: demo
-    tier: frontend
+    tier: __tier__
 data:
   config.json: |
-    {
-      "api": {
-        "baseUri": "http://192.168.1.27:30081/api"
+    { 
+      "api": { 
+        "baseUri": "__baseUri__"
       }
     }
