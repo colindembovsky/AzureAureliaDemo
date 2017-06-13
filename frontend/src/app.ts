@@ -4,10 +4,20 @@ import { ApiWrapper } from './api';
 @autoinject
 export class App {
   public message = 'Hello World!';
+  public version = 'Unknown';
   public values: string[];
 
   constructor(public api: ApiWrapper) {
-    this.initValues();
+    this.initValues().then(() => this.initVersion());
+  }
+
+  private async initVersion() {
+    try {
+      this.version = await this.api.client.fetch("/version")
+        .then((res) => res.json());
+    } catch (ex) {
+      console.error(ex);
+    }
   }
 
   private async initValues() {

@@ -53,8 +53,21 @@ az group create -l $LOCATION -n $RG
 az acs create --orchestrator-type=kubernetes --resource-group $RG --name=$DNS --dns-prefix=$DNS --generate-ssh-keys --ssh-key-value ~/onviak8spoc/id_rsa.pub --agent-vm-size Standard_DS1_v2 --agent-count 2 --tags POC
 ```
 
+#### Heapster Fails
+There is a bug in the Azure template that causes Heapster to fail. This is being fixed, but if the Kubernetes UI is missing graphs and Heapster is not running, then refer to [this issue](https://github.com/Azure/acs-engine/issues/734).
+
 ### Create a Kubernetes Endpoint in VSTS
 
+First you need to get the kubeconfig:
 ```sh
 az acs kubernetes get-credentials -n $DNS -g $RG -f .kube/az-config
 ```
+
+Then add a new Kubernetes Service Endpoint (under the gear `icon->Services` for a Team Project) and enter a name as well as the contents of the kubeconfig file.
+
+
+image deployment/$(backendDeploymentName) $(backendContainerName)=onvia.azurecr.io/$(backendImageName):$(Build.BuildNumber)
+image deployment/$(backendDeploymentName) $(backendContainerName)=onvia.azurecr.io/$(backendImageName):$(Build.BuildNumber)
+
+image deployment/$(frontendDeploymentName) $(frontendContainerName)=onvia.azurecr.io/$(frontendImageName):$(Build.BuildNumber)
+image deployment/$(frontendDeploymentName) $(frontendContainerName)=onvia.azurecr.io/$(frontendImageName):$(Build.BuildNumber)

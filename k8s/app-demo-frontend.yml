@@ -43,5 +43,6 @@ spec:
       #   - name: config-volume
       #     secret:
       #       secretName: demo-app-frontend-secret
+        imagePullPolicy: Always
       imagePullSecrets:
         - name: onviacontainerreg

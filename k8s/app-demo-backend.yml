@@ -31,5 +31,6 @@ spec:
         image: onvia.azurecr.io/api
         ports:
         - containerPort: 80
+        imagePullPolicy: Always
       imagePullSecrets:
         - name: onviacontainerreg

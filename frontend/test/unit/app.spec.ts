@@ -17,6 +17,13 @@ describe('the app', () => {
       },
       url: "/values",
     });
+    client.setup({
+      data: "1.0.0",
+      headers: {
+        'Content-Type': "application/json",
+      },
+      url: "/version",
+    });
     const api = new ApiWrapper(client, aureliaConfig);
 
     // act
