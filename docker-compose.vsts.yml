@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+  api:
+    image: api
+    build:
+      args:
+        source: ./publish
+
+  frontend:
+    image: frontend
+    build:
+      args:
+        source: ./publish
