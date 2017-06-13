@@ -34,12 +34,14 @@ spec:
         env:
         - name: "ASPNETCORE_ENVIRONMENT"
           value: "Production"
-        volumeMounts:
-          - name: config-volume
-            mountPath: /app/wwwroot/config
-      volumes:
-        - name: config-volume
-          secret:
-            secretName: demo-app-frontend-secret
+      # bug? in netcore truncating symlink static file
+      # hardcode the config for now
+      #   volumeMounts:
+      #     - name: config-volume
+      #       mountPath: /app/wwwroot/config
+      # volumes:
+      #   - name: config-volume
+      #     secret:
+      #       secretName: demo-app-frontend-secret
       imagePullSecrets:
         - name: onviacontainerreg

@@ -27,7 +27,7 @@ spec:
         tier: backend
     spec:
       containers:
-      - name: frontent
+      - name: backend
         image: onvia.azurecr.io/api:latest
         ports:
         - containerPort: 80

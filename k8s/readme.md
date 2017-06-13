@@ -52,3 +52,9 @@ az group create -l $LOCATION -n $RG
 
 az acs create --orchestrator-type=kubernetes --resource-group $RG --name=$DNS --dns-prefix=$DNS --generate-ssh-keys --ssh-key-value ~/onviak8spoc/id_rsa.pub --agent-vm-size Standard_DS1_v2 --agent-count 2 --tags POC
 ```
+
+### Create a Kubernetes Endpoint in VSTS
+
+```sh
+az acs kubernetes get-credentials -n $DNS -g $RG -f .kube/az-config
+```
