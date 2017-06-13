@@ -2,7 +2,7 @@
 
 ## Structure
 
-There are 2 (docker) images: frotend and api. A [VSTS Build](https://onviavs.visualstudio.com/NWCadencePOC/_build/index?context=allDefinitions&path=%5C&definitionId=19&_a=completed) builds the images from the source repo and pushes them to the [Onvia Container Registry](onvia.azurecr.io).
+There are 2 (docker) images: frontend and api. A [VSTS Build](https://onviavs.visualstudio.com/NWCadencePOC/_build/index?context=allDefinitions&path=%5C&definitionId=19&_a=completed) builds the images from the source repo and pushes them to the [Onvia Container Registry](onvia.azurecr.io).
 
 The containers are wrapped into Pods for Kubernetes and the pods are wrapped into Replication Sets for reliability and scalability (the definitions are of type `Deployments`).
 
@@ -21,7 +21,7 @@ You can run the images from the Azure Container Registry (ACR) by installing [Mi
 In order for the services to run, you need to specify a "secret" to authenticate with the ACR. To create the ACR, use the following command:
 
 ```sh
-kubectl create secret docker-registry onviacontainerreg --docker-server=onvia.acr.io --docker-username=onvia --docker-password=<key from portal> --docker-email=not@important.com
+kubectl create secret docker-registry onviacontainerreg --docker-server=onvia.azurecr.io --docker-username=onvia --docker-password=<key from portal> --docker-email=not@important.com
 ```
 
 The name `onviacontainerreg` is referred to in the yml files.
