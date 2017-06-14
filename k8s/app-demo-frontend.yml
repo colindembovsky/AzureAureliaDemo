@@ -27,20 +27,20 @@ spec:
         tier: frontend
     spec:
       containers:
-      - name: frontend
-        image: onvia.azurecr.io/frontend
-        ports:
-        - containerPort: 80
-        env:
-        - name: "ASPNETCORE_ENVIRONMENT"
-          value: "Production"
-        volumeMounts:
-          - name: config-volume
-            mountPath: /app/wwwroot/config
+        - name: frontend
+          image: onvia.azurecr.io/frontend
+          ports:
+          - containerPort: 80
+          env:
+          - name: "ASPNETCORE_ENVIRONMENT"
+            value: "Production"
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/wwwroot/config/
+          imagePullPolicy: Always
       volumes:
         - name: config-volume
           configMap:
-            name: demo-app-frontend-secret
-        imagePullPolicy: Always
+            name: demo-app-frontend-config
       imagePullSecrets:
         - name: onviacontainerreg

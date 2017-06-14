@@ -7,8 +7,8 @@ metadata:
     tier: frontend
 data:
   config.json: |
-    { 
-      "api": { 
+    {
+      "api": {
         "baseUri": "__baseUri__"
       }
     }
