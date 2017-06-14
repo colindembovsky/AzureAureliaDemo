@@ -36,7 +36,12 @@ namespace frontend
       loggerFactory.AddDebug();
 
       app.UseDefaultFiles();
-      app.UseStaticFiles();
+      app.UseStaticFiles(new StaticFileOptions()
+      {
+        FileProvider = new SymlinkFileProvider(env.WebRootPath)
+      });
+
+      var info = env.WebRootFileProvider.GetFileInfo("config/config.json");
     }
   }
 }
