@@ -40,8 +40,6 @@ namespace frontend
       {
         FileProvider = new SymlinkFileProvider(env.WebRootPath)
       });
-
-      var info = env.WebRootFileProvider.GetFileInfo("config/config.json");
     }
   }
 }

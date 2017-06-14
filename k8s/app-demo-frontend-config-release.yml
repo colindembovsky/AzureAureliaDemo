@@ -4,7 +4,7 @@ metadata:
   name: demo-app-frontend-config
   labels:
     app: demo
-    tier: __tier__
+    tier: frontend
 data:
   config.json: |
     { 
