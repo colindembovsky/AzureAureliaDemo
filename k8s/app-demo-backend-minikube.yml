@@ -12,7 +12,7 @@ spec:
     - protocol: TCP
       port: 80
       nodePort: 30081
-  type: LoadBalancer
+  type: NodePort
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -28,9 +28,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: my.azurecr.io/api
+        image: api
         ports:
         - containerPort: 80
-        imagePullPolicy: Always
-      imagePullSecrets:
-        - name: mycontainerreg
+        imagePullPolicy: Never

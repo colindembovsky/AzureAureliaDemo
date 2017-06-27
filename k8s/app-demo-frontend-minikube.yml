@@ -12,7 +12,7 @@ spec:
     - protocol: TCP
       port: 80
       nodePort: 30080
-  type: LoadBalancer
+  type: NodePort
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: my.azurecr.io/frontend
+          image: frontend
           ports:
           - containerPort: 80
           env:
@@ -37,10 +37,8 @@ spec:
           volumeMounts:
             - name: config-volume
               mountPath: /app/wwwroot/config/
-          imagePullPolicy: Always
+          imagePullPolicy: Never
       volumes:
         - name: config-volume
           configMap:
             name: demo-app-frontend-config
-      imagePullSecrets:
-        - name: mycontainerreg
