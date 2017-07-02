@@ -2,7 +2,7 @@
 
 ## Structure
 
-There are 2 (docker) images: frontend and api. A [VSTS Build](https://onviavs.visualstudio.com/NWCadencePOC/_build/index?context=allDefinitions&path=%5C&definitionId=19&_a=completed) builds the images from the source repo and pushes them to the [Onvia Container Registry](onvia.azurecr.io).
+There are 2 (docker) images: frontend and api. A VSTS build should build the images from the source repo and push them to a container registry.
 
 The containers are wrapped into Pods for Kubernetes and the pods are wrapped into Replication Sets for reliability and scalability (the definitions are of type `Deployments`).
 
@@ -21,10 +21,10 @@ You can run the images from the Azure Container Registry (ACR) by installing [Mi
 In order for the services to run, you need to specify a "secret" to authenticate with the ACR. To create the ACR, use the following command:
 
 ```sh
-kubectl create secret docker-registry onviacontainerreg --docker-server=onvia.azurecr.io --docker-username=onvia --docker-password=<key from portal> --docker-email=not@important.com
+kubectl create secret docker-registry mycontainerreg --docker-server=my.azurecr.io --docker-username=my --docker-password=<key from portal> --docker-email=not@important.com
 ```
 
-The name `onviacontainerreg` is referred to in the yml files.
+The name `mycontainerreg` is referred to in the yml files.
 
 #### Deploy the backend service
 
@@ -45,16 +45,13 @@ For example:
 az login
 
 export LOCATION="westus"
-export RG="onviak8spoc"
-export DNS="onviak8spoc"
+export RG="myRG"
+export DNS="myk8spoc"
 
 az group create -l $LOCATION -n $RG
 
-az acs create --orchestrator-type=kubernetes --resource-group $RG --name=$DNS --dns-prefix=$DNS --generate-ssh-keys --ssh-key-value ~/onviak8spoc/id_rsa.pub --agent-vm-size Standard_DS1_v2 --agent-count 2 --tags POC
+az acs create --orchestrator-type=kubernetes --resource-group $RG --name=$DNS --dns-prefix=$DNS --generate-ssh-keys --ssh-key-value ~/myk8spoc/id_rsa.pub --agent-vm-size Standard_DS1_v2 --agent-count 2 --tags POC
 ```
-
-#### Heapster Fails
-There is a bug in the Azure template that causes Heapster to fail. This is being fixed, but if the Kubernetes UI is missing graphs and Heapster is not running, then refer to [this issue](https://github.com/Azure/acs-engine/issues/734).
 
 ### Create a Kubernetes Endpoint in VSTS
 
@@ -64,10 +61,3 @@ az acs kubernetes get-credentials -n $DNS -g $RG -f .kube/az-config
 ```
 
 Then add a new Kubernetes Service Endpoint (under the gear `icon->Services` for a Team Project) and enter a name as well as the contents of the kubeconfig file.
-
-
-image deployment/$(backendDeploymentName) $(backendContainerName)=onvia.azurecr.io/$(backendImageName):$(Build.BuildNumber)
-image deployment/$(backendDeploymentName) $(backendContainerName)=onvia.azurecr.io/$(backendImageName):$(Build.BuildNumber)
-
-image deployment/$(frontendDeploymentName) $(frontendContainerName)=onvia.azurecr.io/$(frontendImageName):$(Build.BuildNumber)
-image deployment/$(frontendDeploymentName) $(frontendContainerName)=onvia.azurecr.io/$(frontendImageName):$(Build.BuildNumber)
