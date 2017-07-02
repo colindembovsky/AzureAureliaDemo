@@ -11,7 +11,7 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      nodePort: 30080
+      nodePort: __FrontendServicePort__
   type: LoadBalancer
 ---
 apiVersion: apps/v1beta1
@@ -28,12 +28,12 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: my.azurecr.io/frontend
+          image: __ContainerRegistry__/frontend
           ports:
           - containerPort: 80
           env:
           - name: "ASPNETCORE_ENVIRONMENT"
-            value: "Production"
+            value: "__AspNetCoreEnvironment__"
           volumeMounts:
             - name: config-volume
               mountPath: /app/wwwroot/config/

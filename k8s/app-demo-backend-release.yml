@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-backend-service
+  labels:
+    app: demo
+spec:
+  selector:
+    app: demo
+    tier: backend
+  ports:
+    - protocol: TCP
+      port: 80
+      nodePort: __BackendServicePort__
+  type: LoadBalancer
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: demo-backend-deployment
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: demo
+        tier: backend
+    spec:
+      containers:
+      - name: backend
+        image: __ContainerRegistry__/api
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Always
+      imagePullSecrets:
+        - name: regsecret
