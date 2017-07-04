@@ -6,7 +6,7 @@ export class App {
   public message = 'Hello World!';
   public version = 'Unknown';
   public values: string[];
-  public change = 'changeme 2';
+  public change = 'K8s demo';
 
   constructor(public api: ApiWrapper) {
     this.initValues().then(() => this.initVersion());

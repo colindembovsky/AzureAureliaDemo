@@ -1,0 +1,518 @@
+{
+	"source": 2,
+	"id": 1,
+	"revision": 8,
+	"name": "k8s",
+	"description": null,
+	"lastRelease": null,
+	"path": "\\",
+	"variables": {},
+	"variableGroups": [],
+	"environments": [
+		{
+			"id": 1,
+			"name": "dev",
+			"rank": 1,
+			"variables": {
+				"BackendServicePort": { "value": "30081" },
+				"FrontendServicePort": { "value": "30080" },
+				"ContainerRegistry": { "value": "cdk8s.azurecr.io" },
+				"namespace": { "value": "$(Release.EnvironmentName)" },
+				"AspNetCoreEnvironment": { "value": "development" },
+				"baseUri": { "value": "http://$(BackendServiceIP)/api" },
+				"BackendServiceIP": { "value": "23.99.58.48" }
+			},
+			"preDeployApprovals": {
+				"approvals": [
+					{
+						"rank": 1,
+						"isAutomated": true,
+						"isNotificationOn": false,
+						"id": 1
+					}
+				]
+			},
+			"deployStep": {
+				"tasks": [],
+				"id": 2
+			},
+			"postDeployApprovals": {
+				"approvals": [
+					{
+						"rank": 1,
+						"isAutomated": false,
+						"isNotificationOn": false
+					}
+				],
+				"approvalOptions": {
+					"requiredApproverCount": 0,
+					"releaseCreatorCanBeApprover": true,
+					"autoTriggeredAndPreviousEnvironmentApprovedCanBeSkipped": false,
+					"enforceIdentityRevalidation": false,
+					"timeoutInMintues": 43200
+				}
+			},
+			"deployPhases": [
+				{
+					"deploymentInput": {
+						"parallelExecution": { "parallelExecutionType": "none" },
+						"skipArtifactsDownload": false,
+						"timeoutInMinutes": 0,
+						"queueId": 46,
+						"demands": [],
+						"enableAccessToken": false,
+						"jobCancelTimeoutInMinutes": 1
+					},
+					"rank": 1,
+					"phaseType": 1,
+					"name": "Run on agent",
+					"workflowTasks": [
+						{
+							"taskId": "1d7dea50-482b-4b76-85d7-d4bf151d00b5",
+							"version": "1.*",
+							"name": "Replace tokens in $(System.DefaultWorkingDirectory)/k8s-demo-CI/k8s",
+							"enabled": true,
+							"alwaysRun": false,
+							"continueOnError": false,
+							"timeoutInMinutes": 0,
+							"definitionType": "task",
+							"inputs": {
+								"sourcePath": "$(System.DefaultWorkingDirectory)/k8s-demo-CI/k8s",
+								"filePattern": "*-release.yml",
+								"tokenRegex": "__(\\w+)__",
+								"secretTokens": ""
+							}
+						},
+						{
+							"taskId": "cbc316a2-586f-4def-be79-488a1f503564",
+							"version": "0.*",
+							"name": "kubectl apply",
+							"enabled": true,
+							"alwaysRun": false,
+							"continueOnError": false,
+							"timeoutInMinutes": 0,
+							"definitionType": "task",
+							"inputs": {
+								"kubernetesServiceEndpoint": "6e1ab634-9019-4eed-900e-ffd28b89ed66",
+								"containerRegistryType": "Azure Container Registry",
+								"dockerRegistryEndpoint": "",
+								"azureSubscriptionEndpoint": "5307b8dd-c135-431b-8ab7-56114e05a2a2",
+								"azureContainerRegistry": "{\"loginServer\":\"cdk8s.azurecr.io\", \"id\" : \"/subscriptions/64b3f8df-6620-4b2d-b8c7-79031d289eef/resourcegroups/cd-k8s/providers/Microsoft.ContainerRegistry/registries/cdk8s\"}",
+								"secretName": "",
+								"forceUpdate": "false",
+								"command": "apply",
+								"useConfigurationFile": "true",
+								"configuration": "$(System.DefaultWorkingDirectory)/k8s-demo-CI/k8s/app-demo-frontend-config-release.yml",
+								"arguments": "--namespace $(namespace)",
+								"cwd": "$(System.DefaultWorkingDirectory)",
+								"outputFormat": "json",
+								"kubectlOutput": ""
+							}
+						},
+						{
+							"taskId": "cbc316a2-586f-4def-be79-488a1f503564",
+							"version": "0.*",
+							"name": "kubectl apply",
+							"enabled": true,
+							"alwaysRun": false,
+							"continueOnError": false,
+							"timeoutInMinutes": 0,
+							"definitionType": "task",
+							"inputs": {
+								"kubernetesServiceEndpoint": "6e1ab634-9019-4eed-900e-ffd28b89ed66",
+								"containerRegistryType": "Azure Container Registry",
+								"dockerRegistryEndpoint": "",
+								"azureSubscriptionEndpoint": "5307b8dd-c135-431b-8ab7-56114e05a2a2",
+								"azureContainerRegistry": "{\"loginServer\":\"cdk8s.azurecr.io\", \"id\" : \"/subscriptions/64b3f8df-6620-4b2d-b8c7-79031d289eef/resourcegroups/cd-k8s/providers/Microsoft.ContainerRegistry/registries/cdk8s\"}",
+								"secretName": "regsecret",
+								"forceUpdate": "true",
+								"command": "apply",
+								"useConfigurationFile": "true",
+								"configuration": "$(System.DefaultWorkingDirectory)/k8s-demo-CI/k8s/app-demo-backend-release.yml",
+								"arguments": "--namespace $(namespace)",
+								"cwd": "$(System.DefaultWorkingDirectory)",
+								"outputFormat": "json",
+								"kubectlOutput": ""
+							}
+						},
+						{
+							"taskId": "cbc316a2-586f-4def-be79-488a1f503564",
+							"version": "0.*",
+							"name": "kubectl apply",
+							"enabled": true,
+							"alwaysRun": false,
+							"continueOnError": false,
+							"timeoutInMinutes": 0,
+							"definitionType": "task",
+							"inputs": {
+								"kubernetesServiceEndpoint": "6e1ab634-9019-4eed-900e-ffd28b89ed66",
+								"containerRegistryType": "Azure Container Registry",
+								"dockerRegistryEndpoint": "",
+								"azureSubscriptionEndpoint": "5307b8dd-c135-431b-8ab7-56114e05a2a2",
+								"azureContainerRegistry": "{\"loginServer\":\"cdk8s.azurecr.io\", \"id\" : \"/subscriptions/64b3f8df-6620-4b2d-b8c7-79031d289eef/resourcegroups/cd-k8s/providers/Microsoft.ContainerRegistry/registries/cdk8s\"}",
+								"secretName": "regsecret",
+								"forceUpdate": "true",
+								"command": "apply",
+								"useConfigurationFile": "true",
+								"configuration": "$(System.DefaultWorkingDirectory)/k8s-demo-CI/k8s/app-demo-frontend-release.yml",
+								"arguments": "--namespace $(namespace)",
+								"cwd": "$(System.DefaultWorkingDirectory)",
+								"outputFormat": "json",
+								"kubectlOutput": ""
+							}
+						},
+						{
+							"taskId": "cbc316a2-586f-4def-be79-488a1f503564",
+							"version": "0.*",
+							"name": "kubectl set",
+							"enabled": true,
+							"alwaysRun": false,
+							"continueOnError": false,
+							"timeoutInMinutes": 0,
+							"definitionType": "task",
+							"inputs": {
+								"kubernetesServiceEndpoint": "6e1ab634-9019-4eed-900e-ffd28b89ed66",
+								"containerRegistryType": "Azure Container Registry",
+								"dockerRegistryEndpoint": "",
+								"azureSubscriptionEndpoint": "5307b8dd-c135-431b-8ab7-56114e05a2a2",
+								"azureContainerRegistry": "{\"loginServer\":\"cdk8s.azurecr.io\", \"id\" : \"/subscriptions/64b3f8df-6620-4b2d-b8c7-79031d289eef/resourcegroups/cd-k8s/providers/Microsoft.ContainerRegistry/registries/cdk8s\"}",
+								"secretName": "",
+								"forceUpdate": "false",
+								"command": "set",
+								"useConfigurationFile": "false",
+								"configuration": "",
+								"arguments": "image deployment/demo-frontend-deployment frontend=$(ContainerRegistry)/frontend:$(Build.BuildNumber) --record --namespace=$(namespace)",
+								"cwd": "$(System.DefaultWorkingDirectory)",
+								"outputFormat": "json",
+								"kubectlOutput": ""
+							}
+						},
+						{
+							"taskId": "cbc316a2-586f-4def-be79-488a1f503564",
+							"version": "0.*",
+							"name": "kubectl set",
+							"enabled": true,
+							"alwaysRun": false,
+							"continueOnError": false,
+							"timeoutInMinutes": 0,
+							"definitionType": "task",
+							"inputs": {
+								"kubernetesServiceEndpoint": "6e1ab634-9019-4eed-900e-ffd28b89ed66",
+								"containerRegistryType": "Azure Container Registry",
+								"dockerRegistryEndpoint": "",
+								"azureSubscriptionEndpoint": "5307b8dd-c135-431b-8ab7-56114e05a2a2",
+								"azureContainerRegistry": "{\"loginServer\":\"cdk8s.azurecr.io\", \"id\" : \"/subscriptions/64b3f8df-6620-4b2d-b8c7-79031d289eef/resourcegroups/cd-k8s/providers/Microsoft.ContainerRegistry/registries/cdk8s\"}",
+								"secretName": "",
+								"forceUpdate": "false",
+								"command": "set",
+								"useConfigurationFile": "false",
+								"configuration": "",
+								"arguments": "image deployment/demo-backend-deployment backend=$(ContainerRegistry)/api:$(Build.BuildNumber) --record --namespace=$(namespace)",
+								"cwd": "$(System.DefaultWorkingDirectory)",
+								"outputFormat": "json",
+								"kubectlOutput": ""
+							}
+						}
+					]
+				}
+			],
+			"environmentOptions": {
+				"emailNotificationType": "OnlyOnFailure",
+				"emailRecipients": "release.environment.owner;release.creator",
+				"skipArtifactsDownload": false,
+				"timeoutInMinutes": 0,
+				"enableAccessToken": false,
+				"publishDeploymentStatus": false
+			},
+			"demands": [],
+			"conditions": [
+				{
+					"name": "ReleaseStarted",
+					"conditionType": 1,
+					"value": ""
+				}
+			],
+			"executionPolicy": {
+				"concurrencyCount": 0,
+				"queueDepthCount": 0
+			},
+			"schedules": [],
+			"retentionPolicy": {
+				"daysToKeep": 30,
+				"releasesToKeep": 3,
+				"retainBuild": true
+			},
+			"properties": {}
+		},
+		{
+			"id": 2,
+			"name": "prod",
+			"rank": 2,
+			"variables": {
+				"BackendServicePort": { "value": "30181" },
+				"FrontendServicePort": { "value": "30180" },
+				"ContainerRegistry": { "value": "cdk8s.azurecr.io" },
+				"namespace": { "value": "$(Release.EnvironmentName)" },
+				"AspNetCoreEnvironment": { "value": "production" },
+				"baseUri": { "value": "http://$(BackendServiceIP)/api" },
+				"BackendServiceIP": { "value": "13.93.232.38" }
+			},
+			"preDeployApprovals": {
+				"approvals": [
+					{
+						"rank": 1,
+						"isAutomated": true,
+						"isNotificationOn": false,
+						"id": 4
+					}
+				]
+			},
+			"deployStep": {
+				"tasks": [],
+				"id": 5
+			},
+			"postDeployApprovals": {
+				"approvals": [
+					{
+						"rank": 1,
+						"isAutomated": true,
+						"isNotificationOn": false,
+						"id": 6
+					}
+				]
+			},
+			"deployPhases": [
+				{
+					"deploymentInput": {
+						"parallelExecution": { "parallelExecutionType": "none" },
+						"skipArtifactsDownload": false,
+						"timeoutInMinutes": 0,
+						"queueId": 46,
+						"demands": [],
+						"enableAccessToken": false,
+						"jobCancelTimeoutInMinutes": 1
+					},
+					"rank": 1,
+					"phaseType": 1,
+					"name": "Run on agent",
+					"workflowTasks": [
+						{
+							"taskId": "1d7dea50-482b-4b76-85d7-d4bf151d00b5",
+							"version": "1.*",
+							"name": "Replace tokens in $(System.DefaultWorkingDirectory)/k8s-demo-CI/k8s",
+							"enabled": true,
+							"alwaysRun": false,
+							"continueOnError": false,
+							"timeoutInMinutes": 0,
+							"definitionType": "task",
+							"inputs": {
+								"sourcePath": "$(System.DefaultWorkingDirectory)/k8s-demo-CI/k8s",
+								"filePattern": "*-release.yml",
+								"tokenRegex": "__(\\w+)__",
+								"secretTokens": ""
+							}
+						},
+						{
+							"taskId": "cbc316a2-586f-4def-be79-488a1f503564",
+							"version": "0.*",
+							"name": "kubectl apply",
+							"enabled": true,
+							"alwaysRun": false,
+							"continueOnError": false,
+							"timeoutInMinutes": 0,
+							"definitionType": "task",
+							"inputs": {
+								"kubernetesServiceEndpoint": "6e1ab634-9019-4eed-900e-ffd28b89ed66",
+								"containerRegistryType": "Azure Container Registry",
+								"dockerRegistryEndpoint": "",
+								"azureSubscriptionEndpoint": "5307b8dd-c135-431b-8ab7-56114e05a2a2",
+								"azureContainerRegistry": "{\"loginServer\":\"cdk8s.azurecr.io\", \"id\" : \"/subscriptions/64b3f8df-6620-4b2d-b8c7-79031d289eef/resourcegroups/cd-k8s/providers/Microsoft.ContainerRegistry/registries/cdk8s\"}",
+								"secretName": "",
+								"forceUpdate": "false",
+								"command": "apply",
+								"useConfigurationFile": "true",
+								"configuration": "$(System.DefaultWorkingDirectory)/k8s-demo-CI/k8s/app-demo-frontend-config-release.yml",
+								"arguments": "--namespace $(namespace)",
+								"cwd": "$(System.DefaultWorkingDirectory)",
+								"outputFormat": "json",
+								"kubectlOutput": ""
+							}
+						},
+						{
+							"taskId": "cbc316a2-586f-4def-be79-488a1f503564",
+							"version": "0.*",
+							"name": "kubectl apply",
+							"enabled": true,
+							"alwaysRun": false,
+							"continueOnError": false,
+							"timeoutInMinutes": 0,
+							"definitionType": "task",
+							"inputs": {
+								"kubernetesServiceEndpoint": "6e1ab634-9019-4eed-900e-ffd28b89ed66",
+								"containerRegistryType": "Azure Container Registry",
+								"dockerRegistryEndpoint": "",
+								"azureSubscriptionEndpoint": "5307b8dd-c135-431b-8ab7-56114e05a2a2",
+								"azureContainerRegistry": "{\"loginServer\":\"cdk8s.azurecr.io\", \"id\" : \"/subscriptions/64b3f8df-6620-4b2d-b8c7-79031d289eef/resourcegroups/cd-k8s/providers/Microsoft.ContainerRegistry/registries/cdk8s\"}",
+								"secretName": "regsecret",
+								"forceUpdate": "true",
+								"command": "apply",
+								"useConfigurationFile": "true",
+								"configuration": "$(System.DefaultWorkingDirectory)/k8s-demo-CI/k8s/app-demo-backend-release.yml",
+								"arguments": "--namespace $(namespace)",
+								"cwd": "$(System.DefaultWorkingDirectory)",
+								"outputFormat": "json",
+								"kubectlOutput": ""
+							}
+						},
+						{
+							"taskId": "cbc316a2-586f-4def-be79-488a1f503564",
+							"version": "0.*",
+							"name": "kubectl apply",
+							"enabled": true,
+							"alwaysRun": false,
+							"continueOnError": false,
+							"timeoutInMinutes": 0,
+							"definitionType": "task",
+							"inputs": {
+								"kubernetesServiceEndpoint": "6e1ab634-9019-4eed-900e-ffd28b89ed66",
+								"containerRegistryType": "Azure Container Registry",
+								"dockerRegistryEndpoint": "",
+								"azureSubscriptionEndpoint": "5307b8dd-c135-431b-8ab7-56114e05a2a2",
+								"azureContainerRegistry": "{\"loginServer\":\"cdk8s.azurecr.io\", \"id\" : \"/subscriptions/64b3f8df-6620-4b2d-b8c7-79031d289eef/resourcegroups/cd-k8s/providers/Microsoft.ContainerRegistry/registries/cdk8s\"}",
+								"secretName": "regsecret",
+								"forceUpdate": "true",
+								"command": "apply",
+								"useConfigurationFile": "true",
+								"configuration": "$(System.DefaultWorkingDirectory)/k8s-demo-CI/k8s/app-demo-frontend-release.yml",
+								"arguments": "--namespace $(namespace)",
+								"cwd": "$(System.DefaultWorkingDirectory)",
+								"outputFormat": "json",
+								"kubectlOutput": ""
+							}
+						},
+						{
+							"taskId": "cbc316a2-586f-4def-be79-488a1f503564",
+							"version": "0.*",
+							"name": "kubectl set",
+							"enabled": true,
+							"alwaysRun": false,
+							"continueOnError": false,
+							"timeoutInMinutes": 0,
+							"definitionType": "task",
+							"inputs": {
+								"kubernetesServiceEndpoint": "6e1ab634-9019-4eed-900e-ffd28b89ed66",
+								"containerRegistryType": "Azure Container Registry",
+								"dockerRegistryEndpoint": "",
+								"azureSubscriptionEndpoint": "5307b8dd-c135-431b-8ab7-56114e05a2a2",
+								"azureContainerRegistry": "{\"loginServer\":\"cdk8s.azurecr.io\", \"id\" : \"/subscriptions/64b3f8df-6620-4b2d-b8c7-79031d289eef/resourcegroups/cd-k8s/providers/Microsoft.ContainerRegistry/registries/cdk8s\"}",
+								"secretName": "",
+								"forceUpdate": "false",
+								"command": "set",
+								"useConfigurationFile": "false",
+								"configuration": "",
+								"arguments": "image deployment/demo-frontend-deployment frontend=$(ContainerRegistry)/frontend:$(Build.BuildNumber) --record --namespace=$(namespace)",
+								"cwd": "$(System.DefaultWorkingDirectory)",
+								"outputFormat": "json",
+								"kubectlOutput": ""
+							}
+						},
+						{
+							"taskId": "cbc316a2-586f-4def-be79-488a1f503564",
+							"version": "0.*",
+							"name": "kubectl set",
+							"enabled": true,
+							"alwaysRun": false,
+							"continueOnError": false,
+							"timeoutInMinutes": 0,
+							"definitionType": "task",
+							"inputs": {
+								"kubernetesServiceEndpoint": "6e1ab634-9019-4eed-900e-ffd28b89ed66",
+								"containerRegistryType": "Azure Container Registry",
+								"dockerRegistryEndpoint": "",
+								"azureSubscriptionEndpoint": "5307b8dd-c135-431b-8ab7-56114e05a2a2",
+								"azureContainerRegistry": "{\"loginServer\":\"cdk8s.azurecr.io\", \"id\" : \"/subscriptions/64b3f8df-6620-4b2d-b8c7-79031d289eef/resourcegroups/cd-k8s/providers/Microsoft.ContainerRegistry/registries/cdk8s\"}",
+								"secretName": "",
+								"forceUpdate": "false",
+								"command": "set",
+								"useConfigurationFile": "false",
+								"configuration": "",
+								"arguments": "image deployment/demo-backend-deployment backend=$(ContainerRegistry)/api:$(Build.BuildNumber) --record --namespace=$(namespace)",
+								"cwd": "$(System.DefaultWorkingDirectory)",
+								"outputFormat": "json",
+								"kubectlOutput": ""
+							}
+						}
+					]
+				}
+			],
+			"environmentOptions": {
+				"emailNotificationType": "OnlyOnFailure",
+				"emailRecipients": "release.environment.owner;release.creator",
+				"skipArtifactsDownload": false,
+				"timeoutInMinutes": 0,
+				"enableAccessToken": false,
+				"publishDeploymentStatus": false
+			},
+			"demands": [],
+			"conditions": [
+				{
+					"name": "dev",
+					"conditionType": 2,
+					"value": "4"
+				}
+			],
+			"executionPolicy": {
+				"concurrencyCount": 0,
+				"queueDepthCount": 0
+			},
+			"schedules": [],
+			"retentionPolicy": {
+				"daysToKeep": 30,
+				"releasesToKeep": 3,
+				"retainBuild": true
+			},
+			"properties": {}
+		}
+	],
+	"artifacts": [
+		{
+			"sourceId": "c79d9371-592e-4f29-b314-80fb134332d6:36",
+			"type": "Build",
+			"alias": "k8s-demo-CI",
+			"definitionReference": {
+				"artifactSourceDefinitionUrl": {
+					"id": "https://cacdemo.visualstudio.com/_permalink/_build/index?collectionId=2447ce35-aa30-489e-b4f2-46cce181b99b&projectId=c79d9371-592e-4f29-b314-80fb134332d6&definitionId=36",
+					"name": ""
+				},
+				"defaultVersionType": {
+					"id": "latestType",
+					"name": "Latest"
+				},
+				"definition": {
+					"id": "36",
+					"name": "k8s-demo-CI"
+				},
+				"project": {
+					"id": "c79d9371-592e-4f29-b314-80fb134332d6",
+					"name": "k8s"
+				}
+			},
+			"isPrimary": true
+		}
+	],
+	"triggers": [
+		{
+			"artifactAlias": "k8s-demo-CI",
+			"triggerConditions": [],
+			"triggerType": 1
+		}
+	],
+	"releaseNameFormat": "$(Build.BuildNumber)-$(rev:r)",
+	"url": "https://cacdemo.vsrm.visualstudio.com/c79d9371-592e-4f29-b314-80fb134332d6/_apis/Release/definitions/1",
+	"_links": {
+		"self": { "href": "https://cacdemo.vsrm.visualstudio.com/c79d9371-592e-4f29-b314-80fb134332d6/_apis/Release/definitions/1" },
+		"web": { "href": "https://cacdemo.visualstudio.com/c79d9371-592e-4f29-b314-80fb134332d6/_release?definitionId=1" }
+	},
+	"tags": [],
+	"properties": {}
+}
