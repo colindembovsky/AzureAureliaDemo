@@ -33,4 +33,4 @@ spec:
         - containerPort: 80
         imagePullPolicy: Always
       imagePullSecrets:
-        - name: mycontainerreg
+        - name: regsecret
