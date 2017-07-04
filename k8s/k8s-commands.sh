@@ -1,6 +1,6 @@
 # set some variables
 export RG="cd-k8s"
-export clusterName="cdk8s"
+export ClusterName="cdk8s"
 export location="westus"
 # create a folder for the cluster ssh-keys
 mkdir cdk8s
@@ -45,5 +45,5 @@ USERNAME    PASSWORD                          PASSWORD2
 ----------  --------------------------------  --------------------------------
 cdk8s       some-long-key-1                   some-long-key-2
 
-kubectl create secret docker-registry regsecret --docker-server=cdk8s.azurecr.io --docker-username=cdk8s --docker-password=<some-long-key-1> --docker-email=admin@azurecr.io
+kubectl create secret docker-registry regsecret --docker-server=$ClusterName.azurecr.io --docker-username=$ClusterName --docker-password=<some-long-key-1> --docker-email=admin@azurecr.io
 secret "regsecret" created
