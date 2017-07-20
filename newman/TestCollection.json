@@ -1,0 +1,39 @@
+{
+	"variables": [],
+	"info": {
+		"name": "TestCollection",
+		"_postman_id": "2ba12299-6445-7a7b-0151-2693f56ce6c1",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "TestAPIDemo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"tests[\"Can find Value2\"] = responseBody.has(\"value2\");",
+							"tests[\"Can find Value3\"] = responseBody.has(\"value3\");",
+							"",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/values",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

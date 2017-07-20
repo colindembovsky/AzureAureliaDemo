@@ -1,0 +1,12 @@
+{
+  "id": "00dab968-dcfd-0131-a578-7b210da9eb3c",
+  "name": "Dev (LocalHost)",
+  "values": [
+    {
+      "enabled": true,
+      "key": "url",
+      "value": "__APIURL__",
+      "type": "text"
+    }
+  ]
+}
